@@ -13,7 +13,22 @@ class MoviesController < ApplicationController
     else
       @ratings_to_show = Hash.new
     end
-    @movies = Movie.with_ratings(@ratings_to_show.keys)
+    if params[:sortby]
+      @sortby = params[:sortby]
+    else
+      @sortby = nil
+    end
+    if params[:sortby] == 'title'
+      @title_active = 'hilite bg-warning'
+    else
+      @title_active = ''
+    end
+    if params[:sortby] == 'release_date'
+      @release_date_active = 'hilite bg-warning'
+    else
+      @release_date_active = ''
+    end
+    @movies = Movie.with_ratings(@ratings_to_show.keys,@sortby)
     @all_ratings = Movie.all_ratings
     
   end
